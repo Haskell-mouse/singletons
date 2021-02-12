@@ -4,5 +4,9 @@ packages: ./singletons
 
 source-repository-package
   type: git
-  location: https://github.com/goldfirere/th-desugar
-  tag: ca761285741c16c704a4044f551faf4292432d6a
+  location: https://github.com/Haskell-mouse/th-desugar
+  tag: 77a178b9c140ecd9f1c8d04949de61393346e718
+
+with-compiler: /home/lazybonesxp/GHC/GHC-HEAD-EXAMPLES-CHAR-KIND/ghc/_build/stage1/bin/ghc
+
+allow-newer: all

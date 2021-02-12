@@ -60,33 +60,6 @@ import GHC.TypeNats (Div, Mod, SomeNat(..))
 import Numeric.Natural (Natural)
 import Unsafe.Coerce
 
--- | This bogus 'Num' instance is helpful for people who want to define
--- functions over Nats that will only be used at the type level or
--- as singletons. A correct SNum instance for Nat singletons exists.
-instance Num Nat where
-  (+)         = no_term_level_nats
-  (-)         = no_term_level_nats
-  (*)         = no_term_level_nats
-  negate      = no_term_level_nats
-  abs         = no_term_level_nats
-  signum      = no_term_level_nats
-  fromInteger = no_term_level_nats
-
-instance Eq Nat where
-  (==)        = no_term_level_nats
-
-instance Ord Nat where
-  compare     = no_term_level_nats
-
-instance Enum Nat where
-  toEnum         = no_term_level_nats
-  fromEnum       = no_term_level_nats
-  enumFromTo     = no_term_level_nats
-  enumFromThenTo = no_term_level_nats
-
-instance Show Nat where
-  showsPrec      = no_term_level_nats
-
 -- | This bogus instance is helpful for people who want to define
 -- functions over Symbols that will only be used at the type level or
 -- as singletons.
