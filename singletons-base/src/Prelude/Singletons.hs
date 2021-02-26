@@ -398,7 +398,7 @@ import Data.Bool.Singletons
 import Data.Either.Singletons
 import Data.Eq.Singletons
 import Data.Foldable.Singletons
-import Data.List.Singletons
+import Data.List.Singletons 
 import Data.Maybe.Singletons
 import Data.Monoid.Singletons
        ( PMonoid(..), SMonoid(..), MemptySym0, MappendSym0
@@ -415,5 +415,5 @@ import Data.Tuple.Singletons
 import GHC.Base.Singletons
   hiding (Foldr, FoldrSym0, FoldrSym1, FoldrSym2, FoldrSym3, sFoldr)
 import GHC.Num.Singletons
-import GHC.TypeLits.Singletons
+import GHC.TypeLits.Singletons hiding (SChar) 
 import Text.Show.Singletons

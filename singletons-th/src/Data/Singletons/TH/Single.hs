@@ -1073,6 +1073,12 @@ singLit (StringL str) = do
   pure $ if os_enabled
          then DVarE (singledValueName opts fromStringName) `DAppE` sing_str_lit
          else sing_str_lit
+singLit (CharL c) = do
+  opts <- getOptions 
+  return $ DVarE (singledValueName opts fromCharName) `DAppE`
+             (DVarE singMethName `DSigE`
+               (singFamily `DAppT` DLitT (CharTyLit c)))
+
 singLit lit =
   fail ("Only string and natural number literals can be singled: " ++ show lit)
 

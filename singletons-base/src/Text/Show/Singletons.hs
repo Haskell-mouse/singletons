@@ -68,7 +68,7 @@ import qualified Data.Text as T
 import           GHC.Base.Singletons
 import           GHC.Num.Singletons
 import           GHC.TypeLits
-import           GHC.TypeLits.Singletons
+import           GHC.TypeLits.Singletons hiding (SChar)
 import qualified Prelude as P
 import           Prelude hiding (Show(..))
 import           Unsafe.Coerce (unsafeCoerce)

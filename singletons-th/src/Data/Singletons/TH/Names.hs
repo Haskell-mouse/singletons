@@ -60,7 +60,7 @@ boolName, andName, compareName, minBoundName,
   maxBoundName, repName,
   nilName, consName, listName, tyFunArrowName,
   applyName, applyTyConName, applyTyConAux1Name,
-  natName, symbolName, stringName,
+  natName, symbolName, stringName, charName, 
   eqName, ordName, boundedName, orderingName,
   singFamilyName, singIName, singMethName, demoteName, withSingIName,
   singKindClassName, someSingTypeName, someSingDataName,
@@ -75,7 +75,7 @@ boolName, andName, compareName, minBoundName,
   equalsName, constraintName,
   showName, showSName, showCharName, showCommaSpaceName, showParenName, showsPrecName,
   showSpaceName, showStringName, showSingName, showSing'Name,
-  composeName, gtName, fromStringName,
+  composeName, gtName, fromStringName, 
   foldableName, foldMapName, memptyName, mappendName, foldrName,
   functorName, fmapName, replaceName,
   traversableName, traverseName, pureName, apName, liftA2Name :: Name
@@ -94,6 +94,7 @@ applyTyConName = ''ApplyTyCon
 applyTyConAux1Name = ''ApplyTyConAux1
 symbolName = ''Symbol
 natName = ''Nat
+charName = ''Char
 stringName = ''String
 eqName = ''Eq
 ordName = ''Ord
@@ -151,6 +152,7 @@ composeName = '(.)
 gtName = '(>)
 showCommaSpaceName = 'showCommaSpace
 fromStringName = 'fromString
+fromCharName = 'showChar
 foldableName = ''Foldable
 foldMapName = 'foldMap
 memptyName = 'mempty

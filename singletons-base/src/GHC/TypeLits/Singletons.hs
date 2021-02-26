@@ -18,20 +18,21 @@
 {-# OPTIONS_GHC -Wno-orphans #-}
 
 module GHC.TypeLits.Singletons (
-  Nat, Symbol,
-  Sing, SNat(..), SSymbol(..), withKnownNat, withKnownSymbol,
+  Nat, Symbol, Char,
+  Sing, SNat(..), SSymbol(..), SChar(..),  withKnownNat, withKnownSymbol, withKnownChar,
   Error, sError,
   ErrorWithoutStackTrace, sErrorWithoutStackTrace,
   Undefined, sUndefined,
   KnownNat, natVal,
   KnownSymbol, symbolVal,
+  KnownChar, charVal,
 
   type (^), (%^),
   type (<=?), (%<=?),
 
   TN.Log2, sLog2,
   Div, sDiv, Mod, sMod, DivMod, sDivMod,
-  Quot, sQuot, Rem, sRem, QuotRem, sQuotRem,
+  Quot, sQuot, Rem, sRem, QuotRem, sQuotRem, sConsSymbol,
 
   -- * Defunctionalization symbols
   ErrorSym0, ErrorSym1,
@@ -39,12 +40,14 @@ module GHC.TypeLits.Singletons (
   UndefinedSym0,
   KnownNatSym0, KnownNatSym1,
   KnownSymbolSym0, KnownSymbolSym1,
+  KnownCharSym0, KnownCharSym1,
   type (^@#@$), type (^@#@$$), type (^@#@$$$),
   type (<=?@#@$), type (<=?@#@$$), type (<=?@#@$$$),
   Log2Sym0, Log2Sym1,
   DivSym0, DivSym1, DivSym2,
   ModSym0, ModSym1, ModSym2,
   DivModSym0, DivModSym1, DivModSym2,
+  ConsSymbolSym0, ConsSymbolSym1,
   QuotSym0, QuotSym1, QuotSym2,
   RemSym0, RemSym1, RemSym2,
   QuotRemSym0, QuotRemSym1, QuotRemSym2
@@ -57,9 +60,11 @@ import Data.Tuple.Singletons
 import GHC.TypeLits.Singletons.Internal
 import qualified GHC.TypeNats as TN
 import GHC.TypeNats (Div, Mod, SomeNat(..))
+import GHC.TypeLits hiding (natVal)
 import Numeric.Natural (Natural)
 import Unsafe.Coerce
 
+import qualified Data.Text as T
 -- | This bogus instance is helpful for people who want to define
 -- functions over Symbols that will only be used at the type level or
 -- as singletons.
@@ -81,14 +86,11 @@ instance Monoid Symbol where
 instance Show Symbol where
   showsPrec = no_term_level_syms
 
-no_term_level_nats :: a
-no_term_level_nats = error "The kind `Nat` may not be used at the term level."
-
 no_term_level_syms :: a
 no_term_level_syms = error "The kind `Symbol` may not be used at the term level."
 
 -- These are often useful in TypeLits-heavy code
-$(genDefunSymbols [''KnownNat, ''KnownSymbol])
+$(genDefunSymbols [''KnownNat, ''KnownSymbol, ''KnownChar])
 
 ------------------------------------------------------------
 -- Log2, Div, Mod, DivMod, and friends
@@ -192,3 +194,18 @@ infixl 7 `sQuot`
 sRem :: Sing x -> Sing y -> Sing (Rem x y)
 sRem = sMod
 infixl 7 `sRem`
+
+
+sConsSymbol :: Sing c -> Sing s -> Sing (ConsSymbol c s)
+sConsSymbol c s =
+    let tc   = fromSing c
+        ts   = fromSing s
+        res  = T.unpack $ (T.pack [tc]) <> ts 
+    in case someSymbolVal res of
+                SomeSymbol (_ :: Proxy res) -> unsafeCoerce (SSym :: Sing res)
+
+$(genDefunSymbols [''ConsSymbol])
+instance SingI ConsSymbolSym0 where
+  sing = singFun2 sConsSymbol
+instance SingI x => SingI (ConsSymbolSym1 x) where
+  sing = singFun1 $ sConsSymbol (sing @x)

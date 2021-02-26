@@ -1149,6 +1149,7 @@ promoteLitExp (StringL str) = do
   pure $ if os_enabled
          then DConT (promotedValueName opts fromStringName Nothing) `DAppT` prom_str_lit
          else prom_str_lit
+promoteLitExp (CharL chr) = pure $ DLitT (CharTyLit chr)
 promoteLitExp lit =
   fail ("Only string and natural number literals can be promoted: " ++ show lit)
 
@@ -1159,5 +1160,6 @@ promoteLitPat (IntegerL n)
     fail $ "Negative literal patterns are not allowed,\n" ++
            "because literal patterns are promoted to natural numbers."
 promoteLitPat (StringL str) = return $ DLitT (StrTyLit str)
+promoteLitPat (CharL chr) = return $ DLitT (CharTyLit chr)
 promoteLitPat lit =
   fail ("Only string and natural number literals can be promoted: " ++ show lit)
